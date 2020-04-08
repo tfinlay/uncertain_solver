@@ -6,22 +6,18 @@ Decimal D(String v) => Decimal.parse(v);
 Decimal Di(int v) => Decimal.fromInt(v);
 
 void main() {
-  final m = EquationValue.fromUncertaintyPlusMinus(D('0.189'), uncertaintyPlusMinus: D('0.002'));
-  final g = EquationValue.fromUncertaintyPlusMinus(D('9.81'), uncertaintyPlusMinus: D('0.01'));
-  final R = EquationValue.fromUncertaintyPlusMinus(D('0.015'), uncertaintyPlusMinus: D('0.001'));
+  final m_1 = EquationValue.fromUncertaintyPlusMinus(Decimal.parse('10000000000000000'), uncertaintyPlusMinus: Decimal.parse('10000000'));
+  final g = EquationValue(Decimal.parse('9.7988'), uncertaintyPercentage: Decimal.parse('0.7'));  // From: https://physics.stackexchange.com/a/93298
+  final h = EquationValue.fromUncertaintyPlusMinus(Decimal.fromInt(5), uncertaintyPlusMinus: Decimal.parse('0.1'));
+  final c = EquationValue(Decimal.parse('299792458'), uncertaintyPercentage: Decimal.fromInt(0));
 
-  final alpha_1 = EquationValue.fromUncertaintyPlusMinus(D('0.2349'), uncertaintyPlusMinus: D('0.0001'));
-  final alpha_2 = EquationValue.fromUncertaintyPlusMinus(D('-0.06873'), uncertaintyPlusMinus: D('0.00001'));
-
-  final I_1 = EquationBracket(
+  final m_2 = EquationBracket(
       [
-        EquationBracket([m, g, R], operator: EquationOperator.multiply),
-        EquationBracket([alpha_1, alpha_2], operator: EquationOperator.subtract)
+        EquationBracket([m_1, g, h], operator: EquationOperator.multiply),
+        PowerComponent(c, power: 2)
       ],
       operator: EquationOperator.divide
   );
 
-  print("($m * $g * $R) / ($alpha_1 - $alpha_2)");
-
-  print(I_1);
+  print(m_2);
 }
