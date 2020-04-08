@@ -7,7 +7,7 @@ enum EquationOperator {
   add, subtract, multiply, divide
 }
 
-typedef EquationFunction = Decimal Function (Decimal primaryValue, List<dynamic> secondaryArguments);
+typedef MathFunction = Decimal Function (Decimal primaryValue, List<dynamic> secondaryArguments);
 
 Decimal sum(Iterable<Decimal> values) => values.fold(Decimal.fromInt(0), (sumSoFar, value) => sumSoFar + value);
 

@@ -18,7 +18,7 @@ main() {
       final m_2 = EquationBracket(
         [
             EquationBracket([m_1, g, h], operator: EquationOperator.multiply),
-            PowerComponent(c, power: 2)
+            EquationPower(c, power: 2)
         ],
         operator: EquationOperator.divide
       );

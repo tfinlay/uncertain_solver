@@ -9,6 +9,17 @@ abstract class EquationComponent {
   Decimal get uncertaintyPercentage;
   Decimal get uncertaintyPlusMinus => value * uncertaintyPercentage;
 
+  bool doesIntersectWith(EquationComponent other) {
+    // Whether this component's range intersects with <other>'s range.
+    if (other.value < value && (other.value + other.uncertaintyPlusMinus) >= (value - uncertaintyPlusMinus)) {
+      return true;
+    }
+    else if (other.value > value && (other.value - other.uncertaintyPlusMinus) <= (value + uncertaintyPlusMinus)) {
+      return true;
+    }
+    return false;
+  }
+
   @override
   String toString() => '<$runtimeType $value ± $uncertaintyPlusMinus (%𝛿 = $uncertaintyPercentage)>';
 }
@@ -51,8 +62,8 @@ class EquationBracket extends EquationComponent {
   }) : assert(values != null), assert(operator != null);
 }
 
-class PowerComponent extends EquationComponent {
-  /// Although this can be done with a FunctionComponent, this way minimises errors when working with powers of positive integers.
+class EquationPower extends EquationComponent {
+  /// Although this can be done with an EquationFunction component, this way minimises errors when working with powers of positive integers.
   final int power;
   final EquationComponent argument;
   
@@ -67,7 +78,7 @@ class PowerComponent extends EquationComponent {
   @override
   Decimal get uncertaintyPlusMinus => _bracket.uncertaintyPlusMinus;
   
-  PowerComponent(
+  EquationPower(
       this.argument,
   {
     @required this.power,
@@ -78,9 +89,9 @@ class PowerComponent extends EquationComponent {
   );
 }
 
-class FunctionComponent extends EquationComponent {
+class EquationFunction extends EquationComponent {
   /// A generic EquationComponent that adds function support (e.g. sin, cos, tan, sqrt, ...)
-  final EquationFunction function;
+  final MathFunction function;
   final EquationComponent primaryArgument;
   final List<dynamic> secondaryArguments;
 
@@ -97,7 +108,7 @@ class FunctionComponent extends EquationComponent {
   @override
   Decimal get uncertaintyPercentage => uncertaintyPlusMinus / value;
 
-  FunctionComponent(
+  EquationFunction(
       this.function,
   {
     @required this.primaryArgument,

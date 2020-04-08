@@ -4,5 +4,4 @@
 library uncertain_solver;
 
 export 'src/uncertain_solver_base.dart';
-
-// TODO: Export any libraries intended for clients of this package.
+export 'src/util.dart' show EquationOperator;
